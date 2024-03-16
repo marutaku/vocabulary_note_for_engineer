@@ -1186,26 +1186,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reduxjs/toolkit@npm:^1.9.5":
-  version: 1.9.5
-  resolution: "@reduxjs/toolkit@npm:1.9.5"
-  dependencies:
-    immer: "npm:^9.0.21"
-    redux: "npm:^4.2.1"
-    redux-thunk: "npm:^2.4.2"
-    reselect: "npm:^4.1.8"
-  peerDependencies:
-    react: ^16.9.0 || ^17.0.0 || ^18
-    react-redux: ^7.2.1 || ^8.0.2
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-redux:
-      optional: true
-  checksum: e816b91271e9d32a9d6ea6620cc5e3ddcb77384b08dda1d083f8de26531ee6aa4ee93e9849ee344ba54a83e1e5ce50761b10bb9f979e80a7764fc835f87d9725
-  languageName: node
-  linkType: hard
-
 "@rollup/pluginutils@npm:^4.1.2":
   version: 4.2.1
   resolution: "@rollup/pluginutils@npm:4.2.1"
@@ -1633,10 +1613,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webextension-polyfill@npm:^0.10.0":
-  version: 0.10.0
-  resolution: "@types/webextension-polyfill@npm:0.10.0"
-  checksum: b1f0993e0df2cd50c72a215bd9f72ec9188e834d6f12329662ebec11c967cc61fc2136c5247050c7b5a39ed887476becfca868b90191baa0dc0a8bad6cee5a47
+"@types/webextension-polyfill@npm:^0.10.7":
+  version: 0.10.7
+  resolution: "@types/webextension-polyfill@npm:0.10.7"
+  checksum: 78f9153398172b66db74e02202146e078b9c8fe30a283f52e7ab58021fdb4d18be74555142ec83b878f9d05d98a0296ffbef8287aedd411d9503025fe8ddba36
   languageName: node
   linkType: hard
 
@@ -2209,7 +2189,6 @@ __metadata:
   dependencies:
     "@crxjs/vite-plugin": "npm:^2.0.0-beta.17"
     "@eduardoac-skimlinks/webext-redux": "npm:3.0.1-release-candidate"
-    "@reduxjs/toolkit": "npm:^1.9.5"
     "@testing-library/jest-dom": "npm:^5.16.5"
     "@testing-library/react": "npm:^14.0.0"
     "@testing-library/user-event": "npm:^14.4.3"
@@ -2222,7 +2201,7 @@ __metadata:
     "@types/react": "npm:^18.2.12"
     "@types/react-dom": "npm:^18.2.5"
     "@types/redux-persist-webextension-storage": "npm:^1.0.0"
-    "@types/webextension-polyfill": "npm:^0.10.0"
+    "@types/webextension-polyfill": "npm:^0.10.7"
     "@typescript-eslint/eslint-plugin": "npm:^5.59.11"
     "@typescript-eslint/parser": "npm:^5.59.11"
     "@vitejs/plugin-react": "npm:^4.0.0"
@@ -2247,7 +2226,6 @@ __metadata:
     react-dom: "npm:18.2.0"
     react-redux: "npm:^8.1.0"
     redux-persist-webextension-storage: "npm:^1.0.2"
-    reduxjs-toolkit-persist: "npm:^7.2.1"
     rimraf: "npm:^3.0.2"
     simple-git-hooks: "npm:^2.8.0"
     tailwindcss: "npm:^3.3.2"
@@ -3997,13 +3975,6 @@ __metadata:
   version: 5.2.4
   resolution: "ignore@npm:5.2.4"
   checksum: 7c7cd90edd9fea6e037f9b9da4b01bf0a86b198ce78345f9bbd983929d68ff14830be31111edc5d70c264921f4962404d75b7262b4d9cc3bc12381eccbd03096
-  languageName: node
-  linkType: hard
-
-"immer@npm:^9.0.21":
-  version: 9.0.21
-  resolution: "immer@npm:9.0.21"
-  checksum: 03ea3ed5d4d72e8bd428df4a38ad7e483ea8308e9a113d3b42e0ea2cc0cc38340eb0a6aca69592abbbf047c685dbda04e3d34bf2ff438ab57339ed0a34cc0a05
   languageName: node
   linkType: hard
 
@@ -6234,33 +6205,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux-thunk@npm:^2.4.2":
-  version: 2.4.2
-  resolution: "redux-thunk@npm:2.4.2"
-  peerDependencies:
-    redux: ^4
-  checksum: e202d6ef7dfa7df08ed24cb221aa89d6c84dbaa7d65fe90dbd8e826d0c10d801f48388f9a7598a4fd970ecbc93d335014570a61ca7bc8bf569eab5de77b31a3c
-  languageName: node
-  linkType: hard
-
-"redux@npm:^4.2.1":
-  version: 4.2.1
-  resolution: "redux@npm:4.2.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.9.2"
-  checksum: 136d98b3d5dbed1cd6279c8c18a6a74c416db98b8a432a46836bdd668475de6279a2d4fd9d1363f63904e00f0678a8a3e7fa532c897163340baf1e71bb42c742
-  languageName: node
-  linkType: hard
-
-"reduxjs-toolkit-persist@npm:^7.2.1":
-  version: 7.2.1
-  resolution: "reduxjs-toolkit-persist@npm:7.2.1"
-  peerDependencies:
-    "@reduxjs/toolkit": ^1.6.1
-  checksum: 1b124c32558a47dec61aca4a6ad7c7b78abc10236a41f252663b0d03c979e3e3ed7c1844e5b40e0e26dcd7bd1dfb53bb227feae1743b2863e3ff5a58c5d7be65
-  languageName: node
-  linkType: hard
-
 "regenerator-runtime@npm:^0.13.11":
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
@@ -6290,13 +6234,6 @@ __metadata:
   version: 1.0.0
   resolution: "requires-port@npm:1.0.0"
   checksum: b2bfdd09db16c082c4326e573a82c0771daaf7b53b9ce8ad60ea46aa6e30aaf475fe9b164800b89f93b748d2c234d8abff945d2551ba47bf5698e04cd7713267
-  languageName: node
-  linkType: hard
-
-"reselect@npm:^4.1.8":
-  version: 4.1.8
-  resolution: "reselect@npm:4.1.8"
-  checksum: 06a305a504affcbb67dd0561ddc8306b35796199c7e15b38934c80606938a021eadcf68cfd58e7bb5e17786601c37602a3362a4665c7bf0a96c1041ceee9d0b7
   languageName: node
   linkType: hard
 
