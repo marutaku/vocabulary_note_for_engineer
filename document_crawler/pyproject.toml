@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "document-crawler"
+version = "0.1.0"
+description = ""
+authors = ["Takumi Maruyama <satouredstone@gmail.com>"]
+readme = "README.md"
+packages = [{include = "document_crawler"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Scrapy = "^2.11.1"
+nltk = "^3.8.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.3"
+mypy = "^1.9.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
