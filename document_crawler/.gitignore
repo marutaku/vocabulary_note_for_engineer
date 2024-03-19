@@ -6,7 +6,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -153,5 +154,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-
+.ruff_cache
