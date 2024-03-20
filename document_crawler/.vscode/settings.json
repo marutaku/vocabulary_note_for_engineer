@@ -5,4 +5,7 @@
       "source.organizeImports.ruff": "explicit"
     }
   },
+  "files.watcherExclude": {
+    "**/target": true
+  },
 }

@@ -4,6 +4,8 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+from scrapy.exceptions import IgnoreRequest
+from scrapy.http import Response
 
 
 class DocumentCrawlerSpiderMiddleware:
@@ -77,13 +79,14 @@ class DocumentCrawlerDownloaderMiddleware:
         #   installed downloader middleware will be called
         return None
 
-    def process_response(self, request, response, spider):
+    def process_response(self, request, response: Response, spider):
         # Called with the response returned from the downloader.
-
-        # Must either;
-        # - return a Response object
-        # - return a Request object
-        # - or raise IgnoreRequest
+        content_type_bytes = response.headers.get("Content-Type")
+        if content_type_bytes is None:
+            raise IgnoreRequest("Content-Type header not found")
+        content_type = content_type_bytes.decode("utf-8")
+        if not content_type.startswith("text/"):
+            raise IgnoreRequest(f"Content-Type: {content_type} is not supported")
         return response
 
     def process_exception(self, request, exception, spider):

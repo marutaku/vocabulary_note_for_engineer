@@ -9,7 +9,6 @@ from document_crawler.items import CrawledDocumentCrawlerItem
 
 class TechnicalDocsSpider(scrapy.Spider):
     name = "technical_docs"
-    allowed_domains = ["*"]
 
     def start_requests(self) -> Iterable[Request]:
         # TODO: Load the `start_urls` from some data source
@@ -18,10 +17,21 @@ class TechnicalDocsSpider(scrapy.Spider):
             "https://pkg.go.dev/goa.design/goa",
             "https://docs.scrapy.org/en/latest/index.html",
         ]
+        allowed_domains = [urlparse(url).netloc for url in dummy_urls]
+        self.allowed_domains = allowed_domains
         for url in dummy_urls:
             yield Request(url, dont_filter=True)
 
     def parse(self, response):
+        links = response.css("a::attr(href)").getall()
+        for link in links:
+            # check domain is same as `response.url`
+            link = response.urljoin(link)
+            current_response_domain = urlparse(response.url).netloc
+            link_domain = urlparse(link).netloc
+            if current_response_domain != link_domain:
+                continue
+            yield Request(link, callback=self.parse)
         url = response.url
         title = response.css("title::text").get()
         paragraphs = response.css("p::text")
@@ -29,11 +39,3 @@ class TechnicalDocsSpider(scrapy.Spider):
         yield CrawledDocumentCrawlerItem(
             title=title, url=url, paragraphs=paragraph_texts
         )
-        links = response.css("a::attr(href)").getall()
-        for link in links:
-            # check domain is same as `response.url`
-            current_response_domain = urlparse(response.url).netloc
-            link_domain = urlparse(link).netloc
-            if current_response_domain != link_domain:
-                continue
-            yield Request(link, callback=self.parse)

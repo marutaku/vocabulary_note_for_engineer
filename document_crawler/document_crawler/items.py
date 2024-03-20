@@ -20,9 +20,21 @@ class DocumentCrawlerItem:
     url: str
     paragraphs: list[Paragraph]
 
+    def __str__(self) -> str:
+        return "DocumentCrawlerItem(title={}, url={})".format(self.title, self.url)
+
+    def __repr__(self) -> str:
+        return str(self)
+
 
 @dataclass
 class CrawledDocumentCrawlerItem:
     title: str
     url: str
     paragraphs: list[str]
+
+    def __str__(self) -> str:
+        return "DocumentCrawlerItem(title={}, url={})".format(self.title, self.url)
+
+    def __repr__(self) -> str:
+        return str(self)
