@@ -34,8 +34,8 @@ class TechnicalDocsSpider(scrapy.Spider):
             yield Request(link, callback=self.parse)
         url = response.url
         title = response.css("title::text").get()
-        paragraphs = response.css("p::text")
-        paragraph_texts = [cast(str, p.get()) for p in paragraphs]
+        paragraphs = response.css("p")
+        paragraph_texts = [cast(str, str(p)) for p in paragraphs]
         yield CrawledDocumentCrawlerItem(
             title=title, url=url, paragraphs=paragraph_texts
         )
