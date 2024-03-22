@@ -159,3 +159,4 @@ dmypy.json
 
 *.jl
 .metals
+data/
