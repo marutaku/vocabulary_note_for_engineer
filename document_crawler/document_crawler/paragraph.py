@@ -9,7 +9,7 @@ from nltk.tokenize import RegexpTokenizer
 from document_crawler.items import Paragraph
 
 nltk.download("wordnet")
-nltk.download('averaged_perceptron_tagger')
+nltk.download("averaged_perceptron_tagger")
 
 
 class ParagraphPreprocessor(object):
@@ -35,6 +35,9 @@ class ParagraphPreprocessor(object):
         return self.lemmatizer.lemmatize(word, pos)
 
     def extract_all_normalized_words(self, paragraph: str) -> list[str]:
+        # Replace URL-like strings
+        paragraph = re.sub(r"(http|https)://[^\s]+", "", paragraph)
+        paragraph = paragraph.lower()
         words = self.tokenizer.tokenize(paragraph)
         normalized_words = [self.lemmatize(word).lower() for word in words]
         normalized_words = [

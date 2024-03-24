@@ -32,6 +32,8 @@ if __name__ == "__main__":
     result = aggregate_examples(args.json_line_path)
     example_list_map = {}
     for word, examples in result.items():
-        example_list_map[word] = sorted(list(examples))[: args.max_examples]
+        example_list_map[word] = sorted(
+            list(examples), key=lambda x: len(x), reverse=True
+        )[: args.max_examples]
     with open(args.export_json_filepath, "w") as f:
         json.dump(example_list_map, f, indent=2, ensure_ascii=False)

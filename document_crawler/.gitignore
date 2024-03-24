@@ -158,5 +158,6 @@ dmypy.json
 .scrapy
 
 *.jl
+*.json
 .metals
 data/
