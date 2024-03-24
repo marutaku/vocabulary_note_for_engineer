@@ -26,6 +26,11 @@ class DocumentCrawlerItem:
     def __repr__(self) -> str:
         return str(self)
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "DocumentCrawlerItem":
+        paragraphs = [Paragraph(**p) for p in data["paragraphs"]]
+        return cls(title=data["title"], url=data["url"], paragraphs=paragraphs)
+
 
 @dataclass
 class CrawledDocumentCrawlerItem:

@@ -8,25 +8,30 @@ from document_crawler.items import DocumentCrawlerItem
 def load_json_line_file(file_path: str) -> Generator[DocumentCrawlerItem, None, None]:
     with open(file_path, "r") as f:
         for line in f:
-            yield DocumentCrawlerItem(**json.loads(line))
+            yield DocumentCrawlerItem.from_dict(json.loads(line))
 
 
-def aggregate_examples(json_line_path: str) -> dict[str, list[str]]:
-    word_examples_dict: dict[str, list[str]] = defaultdict(list)
+def aggregate_examples(json_line_path: str) -> dict[str, set[str]]:
+    word_examples_dict: dict[str, set[str]] = defaultdict(set)
     for item in load_json_line_file(json_line_path):
         paragraphs = item.paragraphs
         for paragraph in paragraphs:
-            print(paragraph)
             for word in paragraph.normalized_words:
-                word_examples_dict[word].append(paragraph.text)
+                word_examples_dict[word].add(paragraph.text)
     return word_examples_dict
 
 
 if __name__ == "__main__":
-    import sys
+    import argparse
 
-    json_line_path = sys.argv[1]
-    export_json_filepath = sys.argv[2]
-    result = aggregate_examples(json_line_path)
-    with open(export_json_filepath, "w") as f:
-        json.dump(result, f)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("json_line_path", type=str)
+    parser.add_argument("export_json_filepath", type=str)
+    parser.add_argument("--max_examples", type=int, default=5)
+    args = parser.parse_args()
+    result = aggregate_examples(args.json_line_path)
+    example_list_map = {}
+    for word, examples in result.items():
+        example_list_map[word] = sorted(list(examples))[: args.max_examples]
+    with open(args.export_json_filepath, "w") as f:
+        json.dump(example_list_map, f, indent=2, ensure_ascii=False)
