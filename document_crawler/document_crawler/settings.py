@@ -93,3 +93,4 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 MINIMUM_WORDS_IN_PARAGRAPH = 5
+LOG_FILE="scrapy.log"

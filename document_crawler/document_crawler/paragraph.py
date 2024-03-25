@@ -1,9 +1,11 @@
+import itertools
 import re
-import string
 
 import spacy
 
 from document_crawler.items import Paragraph
+
+english_word_regex = re.compile(r"^[a-zA-Z]+$")
 
 
 class ParagraphPreprocessor(object):
@@ -19,12 +21,17 @@ class ParagraphPreprocessor(object):
         words = [e for e in self.nlp(paragraph)]
         normalized_words = [word.lemma_ for word in words]
         normalized_words = [
-            word for word in normalized_words if word not in string.punctuation
+            word for word in normalized_words if english_word_regex.match(word)
         ]
         return normalized_words
 
     def remove_html_tags(self, paragraph: str) -> str:
         return re.sub(self.regex_clean_html_tags, "", paragraph)
+
+    def split_paragraphs(self, text: str) -> list[str]:
+        paragraphs = text.split(".")
+        paragraphs = [paragraph.strip() for paragraph in paragraphs]
+        return [paragraph for paragraph in paragraphs if paragraph != ""]
 
     def clean_paragraph(self, paragraph: str) -> str:
         paragraph = self.remove_html_tags(paragraph)
@@ -43,8 +50,13 @@ class ParagraphPreprocessor(object):
         ]
 
     def preprocess_paragraphs(self, paragraphs: list[str]) -> list[Paragraph]:
+        splitted_paragraphs = list(
+            itertools.chain.from_iterable(
+                self.split_paragraphs(paragraph) for paragraph in paragraphs
+            )
+        )
         cleaned_paragraphs = [
-            self.clean_paragraph(paragraph) for paragraph in paragraphs
+            self.clean_paragraph(paragraph) for paragraph in splitted_paragraphs
         ]
         filtered_paragraphs = self.filter_paragraphs(cleaned_paragraphs)
         return [

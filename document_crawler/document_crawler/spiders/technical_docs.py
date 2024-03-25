@@ -16,6 +16,8 @@ class TechnicalDocsSpider(scrapy.Spider):
         dummy_urls = [
             "https://pkg.go.dev/goa.design/goa",
             "https://docs.scrapy.org/en/latest/index.html",
+            "https://docs.python.org/3/library/sqlite3.html",
+            "https://spacy.io/api/lemmatizer",
         ]
         allowed_domains = [urlparse(url).netloc for url in dummy_urls]
         self.allowed_domains = allowed_domains

@@ -8,7 +8,6 @@
 # Icon must end with two \r
 Icon
 
-
 # Thumbnails
 ._*
 
@@ -27,7 +26,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
 
 ### https://raw.github.com/github/gitignore/7eef17f37c63ce3cbddbdd154ff836f370d0ad70/Python.gitignore
 
@@ -162,3 +160,4 @@ dmypy.json
 .metals
 data/
 notebooks/
+*.log
