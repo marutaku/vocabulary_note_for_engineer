@@ -9,7 +9,7 @@ packages = [{ include = "document_crawler" }]
 [tool.poetry.dependencies]
 python = "^3.11"
 Scrapy = "^2.11.1"
-nltk = "^3.8.1"
+spacy = "^3.7.4"
 
 
 [tool.poetry.group.dev.dependencies]

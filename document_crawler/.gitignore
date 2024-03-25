@@ -161,3 +161,4 @@ dmypy.json
 *.json
 .metals
 data/
+notebooks/
