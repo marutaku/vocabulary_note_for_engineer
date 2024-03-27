@@ -1,4 +1,5 @@
 import browser, { Menus } from 'webextension-polyfill';
+import { initApp } from './initApp';
 
 type ContextMenus = 'search-word' | 'store-word';
 
@@ -16,12 +17,7 @@ const menus: { id: ContextMenus; title: string; contexts: Menus.ContextType[] }[
 ];
 
 // show welcome page on new install
-browser.runtime.onInstalled.addListener(async (details) => {
-  if (details.reason === 'install') {
-    //show the welcome page
-    const url = browser.runtime.getURL('welcome/welcome.html');
-    await browser.tabs.create({ url });
-  }
+browser.runtime.onInstalled.addListener(async () => {
   menus.forEach((menu) => {
     browser.contextMenus.create({
       id: menu.id,
@@ -40,3 +36,9 @@ chrome.contextMenus.onClicked.addListener((info) => {
     console.log(info.selectionText);
   }
 });
+
+chrome.load
+
+window.onload = function () {
+  initApp()
+}
