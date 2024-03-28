@@ -37,8 +37,6 @@ chrome.contextMenus.onClicked.addListener((info) => {
   }
 });
 
-chrome.load
-
-window.onload = function () {
+chrome.runtime.onStartup.addListener(function () {
   initApp()
-}
+});
