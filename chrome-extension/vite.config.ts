@@ -22,6 +22,7 @@ export default defineConfig({
       input: {
         // see web_accessible_resources in the manifest config
         welcome: join(__dirname, 'src/welcome/welcome.html'),
+        authSite: join(__dirname, 'src/authSite/authSite.html'),
       },
       output: {
         chunkFileNames: 'assets/chunk-[hash].js',
