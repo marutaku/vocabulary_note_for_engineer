@@ -43,6 +43,7 @@ const manifest = defineManifest(async (env) => ({
     '128': 'images/extension_128.png',
   },
   permissions: ['storage', 'tabs', 'contextMenus', "identity"],
+  content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self';"
 }));
 
 export default manifest;
