@@ -40,5 +40,7 @@ for (const obj of manifest.web_accessible_resources) {
   }
 }
 manifest.web_accessible_resources = tempResources;
+manifest.content_security_policy =
+  "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com https://apis.google.com https://securetoken.googleapis.com; object-src 'self'";
 
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));

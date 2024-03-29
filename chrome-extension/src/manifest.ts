@@ -44,14 +44,6 @@ const manifest = defineManifest(async (env) => ({
     '128': 'images/extension_128.png',
   },
   permissions: ['storage', 'tabs', 'contextMenus', "identity"],
-  content_scripts: [
-    {
-      matches: ['https://apis.google.com', "https://www.gstatic.com", "https://www.googleapis.com", "https://securetoken.googleapis.com"],
-    }
-  ],
-  content_security_policy: {
-    extension_pages: 'script-src \'self\'; object-src \'self\'',
-  },
 }));
 
 export default manifest;

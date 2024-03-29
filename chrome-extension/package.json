@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "run-s clean && vite",
+    "dev": "run-s clean && vite --logLevel info",
     "build": "run-s clean && tsc && vite build && run-s firefox-mv2-build",
     "firefox-mv2-build": "node tools/unstable_mv3ToMv2Build.js",
     "clean": "run-p 'clean:**'",

@@ -18,6 +18,7 @@ const menus: { id: ContextMenus; title: string; contexts: Menus.ContextType[] }[
 
 // show welcome page on new install
 browser.runtime.onInstalled.addListener(async () => {
+  initApp()
   menus.forEach((menu) => {
     browser.contextMenus.create({
       id: menu.id,
@@ -28,6 +29,7 @@ browser.runtime.onInstalled.addListener(async () => {
 });
 
 chrome.contextMenus.onClicked.addListener((info) => {
+  console.log('onStartup')
   if (info.menuItemId === 'search-word') {
     const url = `https://www.google.com/search?q=${info.selectionText}`;
     browser.tabs.create({ url });
@@ -35,8 +37,4 @@ chrome.contextMenus.onClicked.addListener((info) => {
   if (info.menuItemId === 'store-word') {
     console.log(info.selectionText);
   }
-});
-
-chrome.runtime.onStartup.addListener(function () {
-  initApp()
 });
