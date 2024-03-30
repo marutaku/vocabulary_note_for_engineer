@@ -29,6 +29,6 @@ export default defineConfig({
       },
     },
   },
-  plugins: [react(), crx({ manifest })],
+  plugins: [react(), crx({ manifest }), ],
   envDir: resolve(__dirname),
 });
