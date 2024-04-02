@@ -18,7 +18,7 @@ const menus: { id: ContextMenus; title: string; contexts: Menus.ContextType[] }[
 
 // show welcome page on new install
 browser.runtime.onInstalled.addListener(async () => {
-  initApp()
+  await initApp()
   menus.forEach((menu) => {
     browser.contextMenus.create({
       id: menu.id,

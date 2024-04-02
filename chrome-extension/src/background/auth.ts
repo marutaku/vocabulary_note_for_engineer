@@ -17,6 +17,7 @@ async function setupOffscreenDocument(path: string) {
   if (!(await hasDocument())) {
     // create offscreen document
     if (creating) {
+
       await creating;
     } else {
       creating = chrome.offscreen.createDocument({
@@ -41,7 +42,7 @@ async function closeOffscreenDocument() {
 
 async function getAuth() {
   const auth = await chrome.runtime.sendMessage({
-    type: 'firebase-auth',
+    type: import.meta.env.VITE_CHROME_EXTENSION_ID,
     target: 'offscreen'
   });
   if (auth?.name === 'FirebaseError') {
