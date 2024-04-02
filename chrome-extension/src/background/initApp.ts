@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { firebaseAuth } from "./auth";
 
 type MessageType = { type: string }
 
@@ -39,6 +40,7 @@ function initializeFirebase() {
 
 export function initApp() {
   initializeFirebase()
+  firebaseAuth()
   const auth = getAuth();
 
 
