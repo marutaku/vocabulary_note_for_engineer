@@ -41,7 +41,9 @@ function handleChromeMessages(message: any, sender: chrome.runtime.MessageSender
   // return true;
   console.log(message)
   console.log(sender)
-  sendResponse({ "message": message })
+  // sendResponse({ "message": message })
+  setTimeout(() =>   sendResponse({ "message": message }), 1000);
+  return true;
 }
 
 export { }

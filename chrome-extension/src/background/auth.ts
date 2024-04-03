@@ -45,18 +45,37 @@ async function closeOffscreenDocument() {
   await chrome.offscreen.closeDocument();
 }
 
+// function getAuth() {
+//   return new Promise(async (resolve, reject) => {
+//     const auth = await chrome.runtime.sendMessage({
+//       extensionId: import.meta.env.VITE_CHROME_EXTENSION_ID,
+//       target: 'offscreen',
+//       message: "initAuth"
+//     }).catch((e) => {
+//       console.error(e);
+//       debugger
+//       reject(e)
+//     });
+//     return auth?.name !== 'FirebaseError' ? resolve(auth) : reject(auth);
+//   }).catch(err => {
+//     console.error(err);
+//     return err;
+//   })
+// }
 function getAuth() {
   return new Promise(async (resolve, reject) => {
-    debugger
-    const auth = await chrome.runtime.sendMessage({
+    return chrome.runtime.sendMessage({
       extensionId: import.meta.env.VITE_CHROME_EXTENSION_ID,
       target: 'offscreen',
       message: "initAuth"
+    }).then((auth) => {
+      debugger
+      auth?.name !== 'FirebaseError' ? resolve(auth) : reject(auth);
+    }).catch((error) => {
+      console.error(error);
+      return reject(error)
     });
-    return auth?.name !== 'FirebaseError' ? resolve(auth) : reject(auth);
-  }).catch(err => {
-    console.error(err);
-    return err;
+
   })
 }
 
