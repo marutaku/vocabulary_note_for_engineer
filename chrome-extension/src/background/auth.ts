@@ -6,6 +6,11 @@ async function hasDocument() {
   // Check all windows controlled by the service worker to see if one
   // of them is the offscreen document with the given path
   const matchedClients = await clients.matchAll();
+  if (matchedClients.some(
+    (c) => c.url === chrome.runtime.getURL(OFFSCREEN_DOCUMENT_PATH)
+  )) {
+    debugger
+  }
   return matchedClients.some(
     (c) => c.url === chrome.runtime.getURL(OFFSCREEN_DOCUMENT_PATH)
   );
@@ -41,14 +46,19 @@ async function closeOffscreenDocument() {
 }
 
 async function getAuth() {
-  const auth = await chrome.runtime.sendMessage({
-    type: import.meta.env.VITE_CHROME_EXTENSION_ID,
-    target: 'offscreen'
-  });
-  if (auth?.name === 'FirebaseError') {
-    throw new Error(auth);
+  try {
+    const auth = await chrome.runtime.sendMessage({
+      type: import.meta.env.VITE_CHROME_EXTENSION_ID,
+      target: 'offscreen'
+    });
+    if (auth?.name === 'FirebaseError') {
+      throw new Error(auth);
+    }
+    return auth;
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
-  return auth;
 }
 export async function firebaseAuth() {
   await setupOffscreenDocument(OFFSCREEN_DOCUMENT_PATH);

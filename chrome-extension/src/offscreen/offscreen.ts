@@ -1,4 +1,4 @@
-const _URL = 'https://example.com/signInWithPopupExample';
+const _URL = 'https://vocabulary-note-for-engineer.web.app/authSite/index.html';
 const iframe = document.createElement('iframe');
 iframe.src = _URL;
 document.documentElement.appendChild(iframe);
@@ -12,7 +12,7 @@ function handleChromeMessages(message: any, sender: chrome.runtime.MessageSender
     return false;
   }
 
-  function handleIframeMessage({ data }: {data: string}) {
+  function handleIframeMessage({ data }: { data: string }) {
     try {
       if (data.startsWith('!_{')) {
         // Other parts of the Firebase library send messages using postMessage.
@@ -39,3 +39,5 @@ function handleChromeMessages(message: any, sender: chrome.runtime.MessageSender
   iframe.contentWindow?.postMessage({ "initAuth": true }, new URL(_URL).origin);
   return true;
 }
+
+export { }

@@ -41,7 +41,6 @@ function initializeFirebase() {
 export async function initApp() {
   initializeFirebase()
   await firebaseAuth()
-  debugger
   const auth = getAuth();
 
 

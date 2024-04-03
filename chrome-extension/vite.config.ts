@@ -22,13 +22,14 @@ export default defineConfig({
       input: {
         // see web_accessible_resources in the manifest config
         welcome: join(__dirname, 'src/welcome/welcome.html'),
-        authSite: join(__dirname, 'src/authSite/authSite.html'),
+        authSite: join(__dirname, 'src/authSite/index.html'),
+        offscreen: join(__dirname, 'src/offscreen/offscreen.html'),
       },
       output: {
         chunkFileNames: 'assets/chunk-[hash].js',
       },
     },
   },
-  plugins: [react(), crx({ manifest }), ],
+  plugins: [react(), crx({ manifest }),],
   envDir: resolve(__dirname),
 });
