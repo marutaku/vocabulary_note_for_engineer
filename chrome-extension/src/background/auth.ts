@@ -1,4 +1,4 @@
-const OFFSCREEN_DOCUMENT_PATH = '/offscreen.html';
+const OFFSCREEN_DOCUMENT_PATH = '/offscreen/offscreen.html';
 
 // Chrome only allows for a single offscreenDocument. This is a helper function
 // that returns a boolean indicating if a document is already active.
@@ -6,35 +6,35 @@ async function hasDocument() {
   // Check all windows controlled by the service worker to see if one
   // of them is the offscreen document with the given path
   const matchedClients = await clients.matchAll();
-  if (matchedClients.some(
-    (c) => c.url === chrome.runtime.getURL(OFFSCREEN_DOCUMENT_PATH)
-  )) {
-    debugger
-  }
   return matchedClients.some(
     (c) => c.url === chrome.runtime.getURL(OFFSCREEN_DOCUMENT_PATH)
   );
 }
 
 async function setupOffscreenDocument(path: string) {
+  // Check all windows controlled by the service worker to see if one
+  // of them is the offscreen document with the given path
   let creating: null | Promise<void> = null;
-  // If we do not have a document, we are already setup and can skip
-  if (!(await hasDocument())) {
-    // create offscreen document
-    if (creating) {
+  const offscreenUrl = chrome.runtime.getURL(path);
+  const existingContexts = await chrome.runtime.getContexts({
+    contextTypes: [chrome.runtime.ContextType.OFFSCREEN_DOCUMENT],
+    documentUrls: [offscreenUrl]
+  });
 
-      await creating;
-    } else {
-      creating = chrome.offscreen.createDocument({
-        url: path,
-        reasons: [
-          chrome.offscreen.Reason.DOM_SCRAPING
-        ],
-        justification: 'authentication'
-      });
-      await creating;
-      creating = null;
-    }
+  if (existingContexts.length > 0) {
+    return;
+  }
+  // create offscreen document
+  if (creating) {
+    await creating;
+  } else {
+    creating = chrome.offscreen.createDocument({
+      url: path,
+      reasons: [chrome.offscreen.Reason.DOM_SCRAPING],
+      justification: 'reason for needing the document',
+    });
+    await creating;
+    creating = null;
   }
 }
 
@@ -45,21 +45,21 @@ async function closeOffscreenDocument() {
   await chrome.offscreen.closeDocument();
 }
 
-async function getAuth() {
-  try {
+function getAuth() {
+  return new Promise(async (resolve, reject) => {
+    debugger
     const auth = await chrome.runtime.sendMessage({
-      type: import.meta.env.VITE_CHROME_EXTENSION_ID,
-      target: 'offscreen'
+      extensionId: import.meta.env.VITE_CHROME_EXTENSION_ID,
+      target: 'offscreen',
+      message: "initAuth"
     });
-    if (auth?.name === 'FirebaseError') {
-      throw new Error(auth);
-    }
-    return auth;
-  } catch (err) {
+    return auth?.name !== 'FirebaseError' ? resolve(auth) : reject(auth);
+  }).catch(err => {
     console.error(err);
-    throw err;
-  }
+    return err;
+  })
 }
+
 export async function firebaseAuth() {
   await setupOffscreenDocument(OFFSCREEN_DOCUMENT_PATH);
 

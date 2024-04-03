@@ -23,7 +23,6 @@ const manifest = defineManifest(async (env) => ({
       resources: [
         // this file is web accessible; it supports HMR b/c it's declared in `rollupOptions.input`
         'welcome/welcome.html',
-        "authSite/index.html",
         "offscreen/offscreen.html"
       ],
       matches: ['<all_urls>'],

@@ -21,7 +21,6 @@ const PARENT_FRAME = document.location.ancestorOrigins[0];
 // Make sure that you enable any provider you want to use in the Firebase Console.
 // https://console.firebase.google.com/project/_/authentication/providers
 const PROVIDER = new GoogleAuthProvider();
-
 function sendResponse(result: UserCredential) {
   globalThis.parent.self.postMessage(JSON.stringify(result), PARENT_FRAME);
 }
