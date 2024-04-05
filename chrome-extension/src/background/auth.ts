@@ -45,43 +45,26 @@ async function closeOffscreenDocument() {
   await chrome.offscreen.closeDocument();
 }
 
-// function getAuth() {
-//   return new Promise(async (resolve, reject) => {
-//     const auth = await chrome.runtime.sendMessage({
-//       extensionId: import.meta.env.VITE_CHROME_EXTENSION_ID,
-//       target: 'offscreen',
-//       message: "initAuth"
-//     }).catch((e) => {
-//       console.error(e);
-//       debugger
-//       reject(e)
-//     });
-//     return auth?.name !== 'FirebaseError' ? resolve(auth) : reject(auth);
-//   }).catch(err => {
-//     console.error(err);
-//     return err;
-//   })
-// }
-function getAuth() {
-  return new Promise(async (resolve, reject) => {
-    return chrome.runtime.sendMessage({
+async function getAuth() {
+  const tmp = await clients.matchAll();
+  console.log(tmp)
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage({
       extensionId: import.meta.env.VITE_CHROME_EXTENSION_ID,
       target: 'offscreen',
       message: "initAuth"
-    }).then((auth) => {
-      debugger
-      auth?.name !== 'FirebaseError' ? resolve(auth) : reject(auth);
-    }).catch((error) => {
-      console.error(error);
-      return reject(error)
-    });
-
+    }, (response) => {
+      console.log(`response: ${response}`)
+      if (response && response.name === 'FirebaseError') {
+        reject(response);
+      }
+      resolve(response);
+    })
   })
 }
 
 export async function firebaseAuth() {
   await setupOffscreenDocument(OFFSCREEN_DOCUMENT_PATH);
-
   const auth = await getAuth()
     .then((auth) => {
       console.log('User Authenticated', auth);
