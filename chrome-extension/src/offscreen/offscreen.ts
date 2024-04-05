@@ -5,7 +5,7 @@ document.documentElement.appendChild(iframe);
 chrome.runtime.onMessage.addListener(handleChromeMessages);
 console.log("offscreen.ts");
 
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function handleChromeMessages(message: any, sender: chrome.runtime.MessageSender, sendResponse: (response: any) => void) {
   // Extensions may have an number of other reasons to send messages, so you
   // should filter out any that are not meant for the offscreen document.

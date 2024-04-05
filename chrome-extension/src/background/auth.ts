@@ -30,7 +30,7 @@ async function setupOffscreenDocument(path: string) {
   } else {
     creating = chrome.offscreen.createDocument({
       url: path,
-      reasons: [chrome.offscreen.Reason.DOM_SCRAPING],
+      reasons: [chrome.offscreen.Reason.DOM_SCRAPING, chrome.offscreen.Reason.IFRAME_SCRIPTING, chrome.offscreen.Reason.DOM_PARSER],
       justification: 'reason for needing the document',
     });
     await creating;
@@ -46,8 +46,6 @@ async function closeOffscreenDocument() {
 }
 
 async function getAuth() {
-  const tmp = await clients.matchAll();
-  console.log(tmp)
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage({
       extensionId: import.meta.env.VITE_CHROME_EXTENSION_ID,
