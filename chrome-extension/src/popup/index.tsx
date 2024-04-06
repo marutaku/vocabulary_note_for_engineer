@@ -6,7 +6,7 @@ import { AuthContextProvider } from './auth';
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <div className='w-96'>
+    <div className='w-96 max-h-96'>
       <AuthContextProvider>
         <Popup />
       </AuthContextProvider>
