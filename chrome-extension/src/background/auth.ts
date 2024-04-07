@@ -48,7 +48,6 @@ async function closeOffscreenDocument() {
 async function getAuth() {
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage({
-      extensionId: import.meta.env.VITE_CHROME_EXTENSION_ID,
       target: 'offscreen',
       message: "initAuth"
     }, (response) => {

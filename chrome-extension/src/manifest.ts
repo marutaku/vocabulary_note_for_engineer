@@ -23,7 +23,6 @@ const manifest = defineManifest(async (env) => ({
       resources: [
         // this file is web accessible; it supports HMR b/c it's declared in `rollupOptions.input`
         'welcome/welcome.html',
-        "offscreen/offscreen.html"
       ],
       matches: ['<all_urls>'],
     },
@@ -45,7 +44,7 @@ const manifest = defineManifest(async (env) => ({
   },
   permissions: ['storage', 'tabs', 'contextMenus', "identity", "offscreen"],
   content_security_policy: {
-    "extension_pages": "script-src 'self' ; object-src 'self'",
+    "extension_pages": "script-src 'self'; object-src 'self'",
     "sandbox": "sandbox allow-scripts; script-src 'self' https://apis.google.com https://www.gstatic.com https://www.googleapis.com https://securetoken.googleapis.com; object-src 'self'"
   }
 }));

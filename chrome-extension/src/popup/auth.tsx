@@ -1,4 +1,5 @@
-import { GoogleAuthProvider, getAuth, User, signInWithPopup, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, getAuth, signOut } from 'firebase/auth/web-extension';
+import { User } from 'firebase/auth';
 import { createContext, useContext, useEffect, useState } from 'react';
 import * as PropTypes from 'prop-types';
 import { initializeFirebase } from '../firebase';
@@ -23,8 +24,6 @@ export const AuthContextProvider: React.FC<React.PropsWithChildren> = ({ childre
 
   const login = async () => {
     console.log('onclick');
-    const result = await signInWithPopup(auth, provider);
-    setLoginUser(result.user);
   };
 
   const logout = async () => {

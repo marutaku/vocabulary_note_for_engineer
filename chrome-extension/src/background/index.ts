@@ -31,7 +31,8 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
   await initApp()
   if (info.menuItemId === 'search-word') {
     const url = `https://www.google.com/search?q=${info.selectionText}`;
-    browser.tabs.create({ url });
+    console.log(url);
+    // browser.tabs.create({ url });
   }
   if (info.menuItemId === 'store-word') {
     console.log(info.selectionText);
