@@ -1,37 +1,26 @@
+import { UserCredential } from "firebase/auth";
 // Import the functions you need from the SDKs you need
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, setPersistence, indexedDBLocalPersistence, signInWithCredential, GoogleAuthProvider } from "firebase/auth/web-extension";
 import { firebaseAuth } from "./auth";
 import { initializeFirebase } from "../firebase";
 
 type MessageType = { type: string }
 
 
-function onSigninRequest(message: MessageType, _sender: chrome.runtime.MessageSender, _sendResponse: () => void) {
-  const auth = getAuth();
-  if (message.type == 'signin') {
-    // ポップアップによるGoogle認証
-    const provider = new GoogleAuthProvider()
-    signInWithPopup(auth, provider).catch(() => {
-      console.log('サインインに失敗');
-    })
-    _sendResponse()
-  } else if (message.type == 'signout') {
-    if (auth.currentUser) {
-      auth.signOut();
-    }
-    _sendResponse()
-  }
-}
-
 
 
 export async function initApp() {
   initializeFirebase()
-  await firebaseAuth()
   const auth = getAuth();
 
-
-  auth.onAuthStateChanged(function (user) {
+  await setPersistence(auth, indexedDBLocalPersistence)
+  auth.onAuthStateChanged(async function (user) {
+    if (!user) {
+      const result = (await firebaseAuth()) as string
+      const credential = GoogleAuthProvider.credential(result)
+      await signInWithCredential(auth, credential)
+    }
+    console.log(user)
     chrome.runtime.onMessage.addListener(function onReceiveAuthStateRequest(message: MessageType, _sender, _sendResponse) {
       if (message.type == 'signin-state') {
         if (user) {
@@ -42,5 +31,4 @@ export async function initApp() {
       }
     })
   })
-  chrome.runtime.onMessage.addListener(onSigninRequest)
 }

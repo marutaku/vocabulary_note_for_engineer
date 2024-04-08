@@ -1,3 +1,4 @@
+import { FirebaseError } from "firebase/app";
 const OFFSCREEN_DOCUMENT_PATH = '/offscreen/offscreen.html';
 
 // Chrome only allows for a single offscreenDocument. This is a helper function
@@ -62,12 +63,11 @@ async function getAuth() {
 
 export async function firebaseAuth() {
   await setupOffscreenDocument(OFFSCREEN_DOCUMENT_PATH);
-  const auth = await getAuth()
-    .then((auth) => {
-      console.log('User Authenticated', auth);
-      return auth;
-    })
-    .catch(err => {
+  try {
+    const auth = await getAuth()
+    return auth;
+  } catch (err) {
+    if (err instanceof FirebaseError) {
       if (err.code === 'auth/operation-not-allowed') {
         console.error('You must enable an OAuth provider in the Firebase' +
           ' console in order to use signInWithPopup. This sample' +
@@ -76,8 +76,11 @@ export async function firebaseAuth() {
         console.error(err);
         return err;
       }
-    })
-    .finally(closeOffscreenDocument)
+    }
+    console.error(err)
+    throw err
+  } finally {
+    closeOffscreenDocument();
+  }
 
-  return auth;
 }
