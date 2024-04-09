@@ -7,8 +7,6 @@ import { initializeFirebase } from "../firebase";
 type MessageType = { type: string }
 
 
-
-
 export async function initApp() {
   initializeFirebase()
   const auth = getAuth();
@@ -16,8 +14,10 @@ export async function initApp() {
   await setPersistence(auth, indexedDBLocalPersistence)
   auth.onAuthStateChanged(async function (user) {
     if (!user) {
-      const result = (await firebaseAuth()) as string
-      const credential = GoogleAuthProvider.credential(result)
+      const result = (await firebaseAuth()) as UserCredential
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+      debugger
+      if (!credential) throw new Error('credential is null')
       await signInWithCredential(auth, credential)
     }
     console.log(user)

@@ -20,7 +20,6 @@ function handleChromeMessages(message: any, sender: chrome.runtime.MessageSender
         // You don't care about them in this context, so return early.
         return;
       }
-      debugger
       data = JSON.parse(data);
       self.removeEventListener('message', handleIframeMessage);
 

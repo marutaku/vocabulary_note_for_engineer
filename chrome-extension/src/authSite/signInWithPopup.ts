@@ -22,8 +22,7 @@ const PARENT_FRAME = document.location.ancestorOrigins[0];
 // https://console.firebase.google.com/project/_/authentication/providers
 const PROVIDER = new GoogleAuthProvider();
 async function sendResponse(result: UserCredential) {
-  const idToken = await auth.currentUser?.getIdToken()
-  globalThis.parent.self.postMessage(JSON.stringify(idToken), PARENT_FRAME);
+  globalThis.parent.self.postMessage(JSON.stringify(result), PARENT_FRAME);
 }
 
 globalThis.addEventListener('message', function ({ data }) {
