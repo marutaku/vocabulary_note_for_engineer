@@ -1,4 +1,3 @@
-import { UserCredential } from "firebase/auth";
 // Import the functions you need from the SDKs you need
 import { getAuth, setPersistence, indexedDBLocalPersistence, signInWithCredential, GoogleAuthProvider } from "firebase/auth/web-extension";
 import { firebaseAuth } from "./auth";
@@ -14,10 +13,11 @@ export async function initApp() {
   await setPersistence(auth, indexedDBLocalPersistence)
   auth.onAuthStateChanged(async function (user) {
     if (!user) {
-      const result = (await firebaseAuth()) as UserCredential
+      const result = await firebaseAuth()
       const credential = GoogleAuthProvider.credentialFromResult(result)
-      debugger
-      if (!credential) throw new Error('credential is null')
+      if (!credential) {
+        throw new Error('No credential')
+      }
       await signInWithCredential(auth, credential)
     }
     console.log(user)

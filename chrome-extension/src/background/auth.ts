@@ -1,4 +1,5 @@
 import { FirebaseError } from "firebase/app";
+import { UserCredential } from "firebase/auth";
 const OFFSCREEN_DOCUMENT_PATH = '/offscreen/offscreen.html';
 
 // Chrome only allows for a single offscreenDocument. This is a helper function
@@ -61,11 +62,11 @@ async function getAuth() {
   })
 }
 
-export async function firebaseAuth() {
+export async function firebaseAuth(): Promise<UserCredential> {
   await setupOffscreenDocument(OFFSCREEN_DOCUMENT_PATH);
   try {
     const auth = await getAuth()
-    return auth;
+    return auth as UserCredential;
   } catch (err) {
     if (err instanceof FirebaseError) {
       if (err.code === 'auth/operation-not-allowed') {
@@ -74,7 +75,7 @@ export async function firebaseAuth() {
           ' uses Google by default.');
       } else {
         console.error(err);
-        return err;
+        throw err
       }
     }
     console.error(err)
