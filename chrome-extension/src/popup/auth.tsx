@@ -25,6 +25,7 @@ export const AuthContextProvider: React.FC<React.PropsWithChildren> = ({ childre
       setLoginUser(user);
       setLoading(false);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async () => {

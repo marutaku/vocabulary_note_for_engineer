@@ -19,7 +19,9 @@
     "lint:type": "tsc --noEmit",
     "test": "jest",
     "ci:test": "run-s \" test --ci --reporters=\"default\" --reporters=\"github-actions\" \"",
-    "prepare": "simple-git-hooks"
+    "prepare": "simple-git-hooks",
+    "typecheck": "tsc --noEmit",
+    "codecheck": "run-s format typecheck lint "
   },
   "dependencies": {
     "@eduardoac-skimlinks/webext-redux": "3.0.1-release-candidate",

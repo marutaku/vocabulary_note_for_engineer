@@ -4,7 +4,7 @@ import { join, resolve } from 'path';
 import { defineConfig } from 'vite';
 import manifest from './src/manifest';
 
-export default defineConfig((config) => {
+export default defineConfig(() => {
   return {
     // @see https://github.com/crxjs/chrome-extension-tools/issues/696
     server: {
