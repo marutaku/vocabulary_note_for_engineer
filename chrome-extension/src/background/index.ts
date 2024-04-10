@@ -18,6 +18,7 @@ const menus: { id: ContextMenus; title: string; contexts: Menus.ContextType[] }[
 
 // show welcome page on new install
 browser.runtime.onInstalled.addListener(async () => {
+  await initApp()
   menus.forEach((menu) => {
     browser.contextMenus.create({
       id: menu.id,
@@ -28,7 +29,6 @@ browser.runtime.onInstalled.addListener(async () => {
 });
 
 chrome.contextMenus.onClicked.addListener(async (info) => {
-  await initApp()
   if (info.menuItemId === 'search-word') {
     const url = `https://www.google.com/search?q=${info.selectionText}`;
     console.log(url);

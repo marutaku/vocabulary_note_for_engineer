@@ -1,37 +1,53 @@
-import { GoogleAuthProvider, getAuth, signOut } from 'firebase/auth/web-extension';
-import { User } from 'firebase/auth';
+import { User, UserCredential } from 'firebase/auth';
 import { createContext, useContext, useEffect, useState } from 'react';
 import * as PropTypes from 'prop-types';
-import { initializeFirebase } from '../firebase';
+import { initializeFirebase, loginWithGoogleLoginCredential } from '../firebase';
+import { getAuth } from 'firebase/auth/web-extension';
 
 const AuthContext = createContext<{
   loginUser: User | null;
   logout: () => void;
-} | null>(null);
-
+}>({
+  loginUser: null,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  logout: () => {},
+});
 initializeFirebase();
 
-const provider = new GoogleAuthProvider();
-const auth = getAuth();
-auth.languageCode = 'ja';
-
 export const AuthContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [loginUser, setLoginUser] = useState<User | null>(null);
+  const loggedIn = loginUser !== null;
+  const auth = getAuth();
   useEffect(() => {
     // auth 初期化時にログインユーザ設定
-    auth.onAuthStateChanged((user) => setLoginUser(user));
+    auth.onAuthStateChanged((user) => {
+      setLoginUser(user);
+      setLoading(false);
+    });
   }, []);
 
   const login = async () => {
-    console.log('onclick');
+    await chrome.runtime.sendMessage(
+      { type: 'login' },
+      async ({ user }: { type: string; user: UserCredential | undefined }) => {
+        if (user) {
+          await loginWithGoogleLoginCredential(user);
+        }
+      }
+    );
   };
 
   const logout = async () => {
-    await signOut(auth);
-    setLoginUser(null);
+    await auth.signOut();
+    await chrome.runtime.sendMessage({ type: 'logout' });
   };
 
-  if (loginUser === null) {
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!loggedIn) {
     return (
       <div className="flex justify-center m-4">
         <button
@@ -60,6 +76,6 @@ AuthContextProvider.propTypes = {
   children: PropTypes.node,
 };
 
-export const AuthContextConsumer = () => {
+export const useAuth = () => {
   return useContext(AuthContext);
 };

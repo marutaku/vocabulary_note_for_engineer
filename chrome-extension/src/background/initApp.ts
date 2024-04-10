@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
-import { getAuth, setPersistence, indexedDBLocalPersistence, signInWithCredential, GoogleAuthProvider } from "firebase/auth/web-extension";
+import { getAuth, setPersistence, indexedDBLocalPersistence } from "firebase/auth/web-extension";
 import { firebaseAuth } from "./auth";
-import { initializeFirebase } from "../firebase";
+import { initializeFirebase, loginWithGoogleLoginCredential } from "../firebase";
 
 type MessageType = { type: string }
 
@@ -14,13 +14,8 @@ export async function initApp() {
   auth.onAuthStateChanged(async function (user) {
     if (!user) {
       const result = await firebaseAuth()
-      const credential = GoogleAuthProvider.credentialFromResult(result)
-      if (!credential) {
-        throw new Error('No credential')
-      }
-      await signInWithCredential(auth, credential)
+      await loginWithGoogleLoginCredential(result)
     }
-    console.log(user)
     chrome.runtime.onMessage.addListener(function onReceiveAuthStateRequest(message: MessageType, _sender, _sendResponse) {
       if (message.type == 'signin-state') {
         if (user) {
@@ -28,6 +23,9 @@ export async function initApp() {
         } else {
           _sendResponse({ type: 'signin-state' });
         }
+      }
+      if (message.type === 'logout') {
+        auth.signOut()
       }
     })
   })
