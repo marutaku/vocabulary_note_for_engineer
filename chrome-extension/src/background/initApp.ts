@@ -12,11 +12,10 @@ export async function initApp() {
 
   await setPersistence(auth, indexedDBLocalPersistence)
   auth.onAuthStateChanged(async function (user) {
-    if (!user) {
-      const result = await firebaseAuth()
-      await loginWithGoogleLoginCredential(result)
-    }
-    chrome.runtime.onMessage.addListener(function onReceiveAuthStateRequest(message: MessageType, _sender, _sendResponse) {
+    // if (!user) {
+
+    // }
+    chrome.runtime.onMessage.addListener(async function onReceiveAuthStateRequest(message: MessageType, _sender, _sendResponse) {
       if (message.type == 'signin-state') {
         if (user) {
           _sendResponse({ type: 'signin-state', user });
@@ -24,8 +23,12 @@ export async function initApp() {
           _sendResponse({ type: 'signin-state' });
         }
       }
+      if (message.type === 'login') {
+        const result = await firebaseAuth()
+        await loginWithGoogleLoginCredential(result)
+      }
       if (message.type === 'logout') {
-        auth.signOut()
+        await auth.signOut()
       }
     })
   })
