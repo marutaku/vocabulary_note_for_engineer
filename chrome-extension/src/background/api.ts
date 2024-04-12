@@ -25,7 +25,6 @@ export class APIClient {
       throw new Error("User is not logged in");
     }
     const idToken = await user.getIdToken();
-    debugger
     const response = await fetch(`${url}?${new URLSearchParams(params)}`, {
       headers: {
         Authorization: `Bearer ${idToken}`,
