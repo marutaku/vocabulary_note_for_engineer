@@ -2399,6 +2399,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vespaiach/axios-fetch-adapter@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@vespaiach/axios-fetch-adapter@npm:0.3.1"
+  peerDependencies:
+    axios: ">=0.26.0"
+  checksum: 79475914c9ef21dd17c9ed92bee4152def3f8d25d879e35baf1ed8834645013db010ce669fd952c0c2a232329fbe945ac313f25e159ba82fe394aaebff94be25
+  languageName: node
+  linkType: hard
+
 "@vitejs/plugin-react@npm:^4.0.0":
   version: 4.0.0
   resolution: "@vitejs/plugin-react@npm:4.0.0"
@@ -2859,6 +2868,7 @@ __metadata:
     "@types/webextension-polyfill": "npm:^0.10.7"
     "@typescript-eslint/eslint-plugin": "npm:^5.59.11"
     "@typescript-eslint/parser": "npm:^5.59.11"
+    "@vespaiach/axios-fetch-adapter": "npm:^0.3.1"
     "@vitejs/plugin-react": "npm:^4.0.0"
     autoprefixer: "npm:^10.4.8"
     axios: "npm:^1.6.8"

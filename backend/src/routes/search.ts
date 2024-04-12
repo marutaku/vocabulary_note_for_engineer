@@ -29,7 +29,7 @@ export const searchRoute = createRoute({
     },
   ],
   request: {
-    params: SearchParamSchema,
+    query: SearchParamSchema,
   },
   responses: {
     200: {

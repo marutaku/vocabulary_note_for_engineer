@@ -1,8 +1,11 @@
 import { Auth } from "firebase/auth";
 import { getAuth } from "firebase/auth/web-extension";
 import axios from "axios";
+import { initializeFirebase } from "../firebase";
 
-class APIClient {
+initializeFirebase();
+
+export class APIClient {
   private auth: Auth;
   private baseURL: string;
   constructor() {
@@ -11,8 +14,8 @@ class APIClient {
   }
 
   async searchWord(word: string) {
-    const path = "/search"
-    const url = `${this.baseURL}${path}?word=${word}`;
+    const path = "/words/search"
+    const url = `${this.baseURL}${path}`;
     return this.sendGetRequest(url, { word });
   }
 
@@ -21,15 +24,16 @@ class APIClient {
     if (!user) {
       throw new Error("User is not logged in");
     }
-    const response = await axios.get(url, {
-      params,
+    const idToken = await user.getIdToken();
+    debugger
+    const response = await fetch(`${url}?${new URLSearchParams(params)}`, {
       headers: {
-        Authorization: `Bearer ${await user.getIdToken()}`,
+        Authorization: `Bearer ${idToken}`,
       },
     });
-    if (response.status !== 200) {
+    if (!response.ok) {
       throw new Error(`Request failed with status code ${response.status}`);
     }
-    return JSON.parse(response.data);
+    return response.json();
   }
 }

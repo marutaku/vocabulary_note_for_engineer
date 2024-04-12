@@ -1,7 +1,10 @@
 import browser, { Menus } from 'webextension-polyfill';
 import { initApp } from './initApp';
+import { APIClient } from './api';
 
 type ContextMenus = 'search-word' | 'store-word';
+
+const client = new APIClient()
 
 const menus: { id: ContextMenus; title: string; contexts: Menus.ContextType[] }[] = [
   {
@@ -30,8 +33,12 @@ browser.runtime.onInstalled.addListener(async () => {
 
 chrome.contextMenus.onClicked.addListener(async (info) => {
   if (info.menuItemId === 'search-word') {
-    const url = `https://www.google.com/search?q=${info.selectionText}`;
-    console.log(url);
+    const word = info.selectionText
+    if (!word) {
+      return
+    }
+    const result = await client.searchWord(word);
+    console.log(result);
     // browser.tabs.create({ url });
   }
   if (info.menuItemId === 'store-word') {
