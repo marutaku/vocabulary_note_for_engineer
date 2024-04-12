@@ -12,6 +12,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@asteasolutions/zod-to-openapi@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@asteasolutions/zod-to-openapi@npm:7.0.0"
+  dependencies:
+    openapi3-ts: "npm:^4.1.2"
+  peerDependencies:
+    zod: ^3.20.2
+  checksum: 10c0/120499b6d997bd3fa21b4e6600f42d6b9201e2a85a7656b722a02c712d6a9fd7c474bf62ad31f76646fbd129d75331408ad3ed5c350c1436856ef306966a33e1
+  languageName: node
+  linkType: hard
+
 "@esbuild/aix-ppc64@npm:0.19.12":
   version: 0.19.12
   resolution: "@esbuild/aix-ppc64@npm:0.19.12"
@@ -401,6 +412,29 @@ __metadata:
   version: 1.9.1
   resolution: "@hono/node-server@npm:1.9.1"
   checksum: 10c0/1cf6d357c1d38a902532fa000071d36634512615da90843d344c577e4cbaed41bac9d6dc927499aa585f32c910acf41f706df96fc519b9131994694b7f756f2b
+  languageName: node
+  linkType: hard
+
+"@hono/zod-openapi@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "@hono/zod-openapi@npm:0.11.0"
+  dependencies:
+    "@asteasolutions/zod-to-openapi": "npm:^7.0.0"
+    "@hono/zod-validator": "npm:0.2.1"
+  peerDependencies:
+    hono: ">=3.11.3"
+    zod: 3.*
+  checksum: 10c0/b8ae6734bf05fd8e9f279fbfa4c5bfd96769956f6892d73022ad5fa6f77b1821d1334418e50ea2c7e9b7ca565ee22778930f9e928fce4bef9636422039da4cd7
+  languageName: node
+  linkType: hard
+
+"@hono/zod-validator@npm:0.2.1":
+  version: 0.2.1
+  resolution: "@hono/zod-validator@npm:0.2.1"
+  peerDependencies:
+    hono: ">=3.9.0"
+    zod: ^3.19.1
+  checksum: 10c0/de399abc8ab26552111c745ae0ecad714af549e79b0412c2285d057bde72b434b09b8f9b65940d3a4b2dd82dcfb52e1601ac505effb410e4439e9c8835a99d7d
   languageName: node
   linkType: hard
 
@@ -3752,6 +3786,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"openapi3-ts@npm:^4.1.2":
+  version: 4.3.1
+  resolution: "openapi3-ts@npm:4.3.1"
+  dependencies:
+    yaml: "npm:^2.4.1"
+  checksum: 10c0/6d6860ad357eb694db044f09cfc68204b8df46ad8a8b33d584d110ee2a7acd9c92f102a25851cf528f5636352daddf1f82cb7b2fae4ad4c6641e0df02c566b45
+  languageName: node
+  linkType: hard
+
 "optionator@npm:^0.9.3":
   version: 0.9.3
   resolution: "optionator@npm:0.9.3"
@@ -4124,6 +4167,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@hono/node-server": "npm:^1.9.0"
+    "@hono/zod-openapi": "npm:^0.11.0"
     "@types/eslint": "npm:^8"
     "@types/node": "npm:^20.11.17"
     "@typescript-eslint/eslint-plugin": "npm:^7.6.0"
@@ -4141,6 +4185,7 @@ __metadata:
     prettier: "npm:^3.2.5"
     tsx: "npm:^4.7.1"
     typescript: "npm:5.3.2"
+    zod: "npm:^3.22.4"
   languageName: unknown
   linkType: soft
 
@@ -4976,6 +5021,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"yaml@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "yaml@npm:2.4.1"
+  bin:
+    yaml: bin.mjs
+  checksum: 10c0/816057dbaea16a7dfb0b868ace930f143dece96bbb4c4fbb6f38aa389166f897240d9fa535dbfd6b1b0d9442416f4abcc698e63f82394d0c67b329aa6c2be576
+  languageName: node
+  linkType: hard
+
 "yargs-parser@npm:^21.1.1":
   version: 21.1.1
   resolution: "yargs-parser@npm:21.1.1"
@@ -5002,5 +5056,12 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: 10c0/dceb44c28578b31641e13695d200d34ec4ab3966a5729814d5445b194933c096b7ced71494ce53a0e8820685d1d010df8b2422e5bf2cdea7e469d97ffbea306f
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.22.4":
+  version: 3.22.4
+  resolution: "zod@npm:3.22.4"
+  checksum: 10c0/7578ab283dac0eee66a0ad0fc4a7f28c43e6745aadb3a529f59a4b851aa10872b3890398b3160f257f4b6817b4ce643debdda4fb21a2c040adda7862cab0a587
   languageName: node
   linkType: hard
