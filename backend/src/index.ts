@@ -5,6 +5,9 @@ import { OpenAPIHono } from '@hono/zod-openapi';
 import { searchRoute } from './routes/search';
 import { logger } from 'hono/logger';
 import 'dotenv/config';
+import { WordController } from './infra/controller/search';
+
+const wordController = new WordController(firebaseApp);
 
 const app = new OpenAPIHono({
   defaultHook: (result, c) => {
@@ -28,14 +31,7 @@ app.openAPIRegistry.registerComponent('securitySchemes', 'Bearer', {
 
 app.use(logger());
 app.use('/api/*', createAuthMiddleware(firebaseApp));
-app.openapi(searchRoute, async (c) => {
-  const { word } = c.req.valid('query');
-  return c.json({
-    word: word,
-    meaning: 'こんにちは',
-    links: ['https://example.com'],
-  });
-});
+app.openapi(searchRoute, wordController.search);
 
 app.doc('/doc', {
   openapi: '3.0.0',
