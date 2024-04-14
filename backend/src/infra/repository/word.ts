@@ -1,7 +1,9 @@
 import { Firestore, getFirestore } from 'firebase-admin/firestore';
 import { Word } from '../../domain/word';
 import { App } from 'firebase-admin/app';
+import { lemmatizer } from 'lemmatizer';
 import { ExampleRepository, ExampleRepositoryImpl } from './example';
+import { WordNet } from 'natural';
 
 class WordRecord {
   constructor(
@@ -19,7 +21,7 @@ class WordRecord {
       snapshot: FirebaseFirestore.QueryDocumentSnapshot,
     ): WordRecord {
       const data = snapshot.data();
-      return new WordRecord(data.surface, data.meaning);
+      return new WordRecord(data.id, data.meaning);
     },
   };
 }
@@ -31,15 +33,18 @@ export interface WordRepository {
 export class WordRepositoryImpl implements WordRepository {
   store: Firestore;
   exampleRepository: ExampleRepository;
+  wordnet: WordNet;
   constructor(app: App) {
     this.store = getFirestore(app);
     this.exampleRepository = new ExampleRepositoryImpl(app);
+    this.wordnet = new WordNet();
   }
   async getWord(word: string, maxExamples: number): Promise<Word | null> {
+    const lemmatizedWord = await this.lemmatize(word);
     const docRef = this.store
       .collection('words')
       .withConverter(WordRecord.converter)
-      .doc(word);
+      .doc(lemmatizedWord);
     const doc = await docRef.get();
     const wordRecord = doc.data();
     if (!wordRecord) {
@@ -50,5 +55,9 @@ export class WordRepositoryImpl implements WordRepository {
       maxExamples,
     );
     return new Word(wordRecord.surface, wordRecord.meaning, examples);
+  }
+
+  lemmatize(word: string): string {
+    return lemmatizer(word);
   }
 }

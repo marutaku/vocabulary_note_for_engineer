@@ -1644,6 +1644,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"en-inflectors@npm:^1.0.11, en-inflectors@npm:^1.0.7":
+  version: 1.0.12
+  resolution: "en-inflectors@npm:1.0.12"
+  dependencies:
+    en-stemmer: "npm:^1.0.2"
+  checksum: 10c0/c399cee8e9d03879730f91e2f20f0c9c4efd01b1bd4f8e713c04862a61b5e383c07c2a7e4e3633bcb3bfe987e0f680fd9c6cb83435082751ac7faa2b31639c97
+  languageName: node
+  linkType: hard
+
+"en-lexicon@npm:^1.0.10":
+  version: 1.0.11
+  resolution: "en-lexicon@npm:1.0.11"
+  dependencies:
+    en-inflectors: "npm:^1.0.7"
+  checksum: 10c0/6356feab9a9043e1c94e58988ab047a1afae0d291c5f98fe7ddf119408a9f50ebfa9e7cd790e0e970cff3fc49c0baedd546b0891cee532e9b47916bb3c0c4794
+  languageName: node
+  linkType: hard
+
+"en-stemmer@npm:^1.0.2, en-stemmer@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "en-stemmer@npm:1.0.3"
+  checksum: 10c0/f82a4d7ed3bb3e5f28c0b7722092038d068980e001a1ae0d79697180a984b05030d2e4acc2ce89b451183936f3a9bde7ea8b4195d8b31e3ed8643599f6902951
+  languageName: node
+  linkType: hard
+
 "encoding@npm:^0.1.13":
   version: 0.1.13
   resolution: "encoding@npm:0.1.13"
@@ -3251,6 +3276,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lemmatizer@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "lemmatizer@npm:0.0.1"
+  dependencies:
+    en-inflectors: "npm:^1.0.11"
+    en-lexicon: "npm:^1.0.10"
+    en-stemmer: "npm:^1.0.3"
+  checksum: 10c0/7a9741ea1c915878c3c266b099c1b25b27063ba55e9076a6a3e50dd7b9d4f058a0475c1a32dfc3b87541fe4b349e20ea8f7be5f52d8454490230f89447d90ae8
+  languageName: node
+  linkType: hard
+
 "levn@npm:^0.4.1":
   version: 0.4.1
   resolution: "levn@npm:0.4.1"
@@ -4189,6 +4225,7 @@ __metadata:
     eslint-plugin-promise: "npm:^6.0.0"
     firebase-admin: "npm:^12.0.0"
     hono: "npm:^4.2.3"
+    lemmatizer: "npm:^0.0.1"
     npm-run-all: "npm:^4.1.5"
     prettier: "npm:^3.2.5"
     tsx: "npm:^4.7.1"
