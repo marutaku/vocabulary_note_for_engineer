@@ -1,4 +1,6 @@
 {
+  "emitDecoratorMetadata": true,
+  "experimentalDecorators": true,
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",

@@ -3,7 +3,6 @@ import { Word } from '../../domain/word';
 import { App } from 'firebase-admin/app';
 import { lemmatizer } from 'lemmatizer';
 import { ExampleRepository, ExampleRepositoryImpl } from './example';
-import { WordNet } from 'natural';
 
 class WordRecord {
   constructor(
@@ -33,11 +32,9 @@ export interface WordRepository {
 export class WordRepositoryImpl implements WordRepository {
   store: Firestore;
   exampleRepository: ExampleRepository;
-  wordnet: WordNet;
   constructor(app: App) {
     this.store = getFirestore(app);
     this.exampleRepository = new ExampleRepositoryImpl(app);
-    this.wordnet = new WordNet();
   }
   async getWord(word: string, maxExamples: number): Promise<Word | null> {
     const lemmatizedWord = await this.lemmatize(word);
