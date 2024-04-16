@@ -3,6 +3,7 @@ import { Word } from '../../domain/word';
 import { App } from 'firebase-admin/app';
 import { lemmatizer } from 'lemmatizer';
 import { ExampleRepository, ExampleRepositoryImpl } from './example';
+import { DictionaryRepository, DictionaryRepositoryImpl } from './dictionary';
 
 class WordRecord {
   constructor(
@@ -32,12 +33,16 @@ export interface WordRepository {
 export class WordRepositoryImpl implements WordRepository {
   store: Firestore;
   exampleRepository: ExampleRepository;
-  constructor(app: App) {
+  dictionaryRepository: DictionaryRepository;
+  constructor(app: App, dictionaryDBPath: string) {
     this.store = getFirestore(app);
     this.exampleRepository = new ExampleRepositoryImpl(app);
+    this.dictionaryRepository = new DictionaryRepositoryImpl(dictionaryDBPath);
   }
+
   async getWord(word: string, maxExamples: number): Promise<Word | null> {
     const lemmatizedWord = await this.lemmatize(word);
+    const meaning = await this.dictionaryRepository.getMeaning(lemmatizedWord);
     const docRef = this.store
       .collection('words')
       .withConverter(WordRecord.converter)
@@ -51,7 +56,7 @@ export class WordRepositoryImpl implements WordRepository {
       word,
       maxExamples,
     );
-    return new Word(wordRecord.surface, wordRecord.meaning, examples);
+    return new Word(wordRecord.surface, meaning, examples);
   }
 
   lemmatize(word: string): string {
