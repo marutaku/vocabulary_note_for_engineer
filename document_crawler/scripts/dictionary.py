@@ -10,4 +10,4 @@ if __name__ == "__main__":
     if definition is None:
         print("No definition found.")
     else:
-        print("\n".join(definition.meaning_lines))
+        print(definition.formatted_meaning)

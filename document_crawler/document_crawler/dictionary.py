@@ -11,6 +11,10 @@ class Definition:
     def meaning_lines(self) -> list[str]:
         return [text.strip() for text in self.meaning.split("/")]
 
+    @property
+    def formatted_meaning(self) -> str:
+        return "\n".join(self.meaning_lines)
+
 
 class EnglishDictionary(object):
     def __init__(self, db_path: str):
