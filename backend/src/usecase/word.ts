@@ -9,7 +9,10 @@ export interface WordUseCase {
 export class WordUseCaseImpl implements WordUseCase {
   wordRepository: WordRepository;
   constructor(app: App) {
-    this.wordRepository = new WordRepositoryImpl(app);
+    this.wordRepository = new WordRepositoryImpl(
+      app,
+      './data/dictionary.sqlite3',
+    );
   }
   async searchWord(word: string): Promise<Word | null> {
     return this.wordRepository.getWord(word, 3);

@@ -12,7 +12,7 @@ export class DictionaryRepositoryImpl implements DictionaryRepository {
   async getMeaning(word: string): Promise<string> {
     return new Promise((resolve, reject) => {
       this.db.get(
-        'SELECT items FROM dictionary WHERE word = ?',
+        'SELECT * FROM items WHERE word = ?',
         [word],
         (err, row: { meaning: string }) => {
           if (err) {
