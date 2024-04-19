@@ -7,8 +7,6 @@ from scrapy import signals
 from scrapy.exceptions import IgnoreRequest
 from scrapy.http import Response
 
-from document_crawler.dictionary import Dictionary
-
 
 class DocumentCrawlerSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -55,7 +53,6 @@ class DocumentCrawlerSpiderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
-        self.dictionary = Dictionary("data/ejdict.sqlite3")
 
 
 class DocumentCrawlerDownloaderMiddleware:

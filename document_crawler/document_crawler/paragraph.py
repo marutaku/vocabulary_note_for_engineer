@@ -29,7 +29,7 @@ class ParagraphPreprocessor(object):
         return re.sub(self.regex_clean_html_tags, "", paragraph)
 
     def split_paragraphs(self, text: str) -> list[str]:
-        paragraphs = text.split(".")
+        paragraphs = [f"{p}." for p in text.split(".")]
         paragraphs = [paragraph.strip() for paragraph in paragraphs]
         return [paragraph for paragraph in paragraphs if paragraph != ""]
 

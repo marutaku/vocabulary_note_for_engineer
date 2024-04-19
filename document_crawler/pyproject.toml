@@ -10,6 +10,7 @@ packages = [{ include = "document_crawler" }]
 python = "^3.11"
 Scrapy = "^2.11.1"
 spacy = "^3.7.4"
+firebase-admin = "^6.5.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -46,6 +47,19 @@ exclude = [
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+exclude = [
+  ".venv/",
+  ".direnv",
+  ".nox",
+  ".tox",
+  ".ruff_cache",
+  "build",
+  "dist",
+  "node_modules/",
+  "venv/",
+]
 
 [[tool.mypy.overrides]]
 module = "scrapy.*"

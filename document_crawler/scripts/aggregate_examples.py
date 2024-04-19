@@ -1,8 +1,13 @@
 import json
 from collections import defaultdict
-from typing import Generator
+from typing import Generator, TypedDict
 
 from document_crawler.items import DocumentCrawlerItem
+
+
+class Record(TypedDict):
+    url: str
+    text: str
 
 
 def load_json_line_file(file_path: str) -> Generator[DocumentCrawlerItem, None, None]:
@@ -11,13 +16,21 @@ def load_json_line_file(file_path: str) -> Generator[DocumentCrawlerItem, None, 
             yield DocumentCrawlerItem.from_dict(json.loads(line))
 
 
-def aggregate_examples(json_line_path: str) -> dict[str, set[str]]:
-    word_examples_dict: dict[str, set[str]] = defaultdict(set)
+def is_valid_word(word: str) -> bool:
+    return word.isalpha()
+
+
+def aggregate_examples(json_line_path: str) -> dict[str, list[Record]]:
+    word_examples_dict: dict[str, list[Record]] = defaultdict(list)
     for item in load_json_line_file(json_line_path):
         paragraphs = item.paragraphs
         for paragraph in paragraphs:
             for word in paragraph.normalized_words:
-                word_examples_dict[word].add(paragraph.text)
+                if not is_valid_word(word):
+                    continue
+                word_examples_dict[word].append(
+                    {"url": item.url, "text": paragraph.text}
+                )
     return word_examples_dict
 
 

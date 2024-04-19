@@ -1,4 +1,4 @@
-.PHONY: lint fmt crawl
+.PHONY: lint fmt crawl typecheck
 
 lint:
 	poetry run ruff check .
@@ -8,3 +8,6 @@ fmt:
 
 crawl:
 	poetry run scrapy crawl technical_docs -O $(export_feed_path)
+
+typecheck:
+	poetry run mypy .
