@@ -12,12 +12,31 @@ export const SearchResponseSchema = z
     meaning: z
       .string()
       .openapi({ example: 'こんにちは', description: '単語の意味' }),
-    links: z.array(z.string()).openapi({
-      example: ['https://example.com'],
-      description: '単語が使用されているWebサイトのリンク',
-    }),
+    examples: z
+      .array(
+        z.object({
+          // 例文
+          sentence: z
+            .string()
+            .openapi({ example: 'Hello, World!', description: '例文' }),
+          // 例文が使用されているWebサイトのリンク
+          url: z.string().url().openapi({
+            example: 'https://example.com',
+            description: '例文が使用されているWebサイトのリンク',
+          }),
+        }),
+      )
+      .openapi({
+        example: [
+          {
+            sentence: 'Hello, World!',
+            url: 'https://example.com',
+          },
+        ],
+        description: '単語が使用されているWebサイトのリンク',
+      }),
   })
-  .openapi('User');
+  .openapi('SearchResponseSchema');
 
 export const searchRoute = createRoute({
   method: 'get',

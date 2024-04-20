@@ -21,8 +21,8 @@ export class WordController {
     }
     return ctx.json({
       word: word,
-      meaning: 'こんにちは',
-      links: ['https://example.com'],
+      meaning: wordWithExamples.meaning,
+      examples: wordWithExamples.examples,
     });
   };
 }

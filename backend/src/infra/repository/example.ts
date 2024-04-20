@@ -18,7 +18,7 @@ class ExampleRecord {
       snapshot: FirebaseFirestore.QueryDocumentSnapshot,
     ): ExampleRecord {
       const data = snapshot.data();
-      return new ExampleRecord(data.sentence, data.url);
+      return new ExampleRecord(data.text, data.url);
     },
   };
 }
