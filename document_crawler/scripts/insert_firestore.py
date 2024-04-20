@@ -51,8 +51,8 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("json_file_path", type=str)
     parser.add_argument("service_account_key_path", type=str)
+    parser.add_argument("--json_file_path", type=str)
     args = parser.parse_args()
 
     cred = initialize_app(
@@ -60,6 +60,10 @@ if __name__ == "__main__":
     )
     db = firestore.client()
 
-    data = load_json_file(args.json_file_path)
+    if args.json_file_path:
+        data = load_json_file(args.json_file_path)
+    else:
+        data = load_json_from_stdin()
     for word, record in data.items():
+        print(f"Inserting word: {word} with {len(record['examples'])} examples.")
         insert_word(db, word, record)
