@@ -39,7 +39,6 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
     }
     const result = await client.searchWord(word);
     console.log(result);
-    // browser.tabs.create({ url });
   }
   if (info.menuItemId === 'store-word') {
     console.log(info.selectionText);

@@ -27,3 +27,5 @@ dist-firefox-v2
 .env*
 .firebaserc
 .firebase
+
+.yarn/install-state.gz

@@ -1,6 +1,5 @@
 import { Auth } from "firebase/auth";
 import { getAuth } from "firebase/auth/web-extension";
-import axios from "axios";
 import { initializeFirebase } from "../firebase";
 
 initializeFirebase();

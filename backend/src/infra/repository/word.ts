@@ -56,7 +56,11 @@ export class WordRepositoryImpl implements WordRepository {
       word,
       maxExamples,
     );
-    return new Word(wordRecord.surface, wordRecord.meaning, examples);
+    return new Word(
+      wordRecord.surface,
+      meaning || wordRecord.meaning,
+      examples,
+    );
   }
 
   lemmatize(word: string): string {
