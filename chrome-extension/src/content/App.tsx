@@ -1,5 +1,7 @@
-import { set } from 'lodash-es';
 import { useEffect, useState } from 'react';
+import { pipe } from 'fp-ts/function';
+import * as E from 'fp-ts/Either';
+import { isSingleWord, isStringNotEmpty, trim } from './validate';
 
 export const App = () => {
   const [showSearchButton, setShowSearchButton] = useState(false);
@@ -14,28 +16,30 @@ export const App = () => {
     const bodyElement = document.querySelector('body');
     bodyElement?.addEventListener('mouseup', (e: MouseEvent) => {
       e.preventDefault();
-      const selection = window.getSelection();
-      const selectedText = selection?.toString().trim();
-      console.log(`onmouseup: ${selectedText}`);
-      if (selectedText === undefined || selectedText === '') {
-        resetSearchWord();
-        return;
-      }
-      if (selectedText.split(' ').length > 1) {
-        // 文章は検索対象外
-        resetSearchWord();
-        return;
-      }
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (e.target?.dataset.extensionArea) {
-        // 文章は検索対象外
         resetSearchWord();
         return;
       }
-      setSearchWord(selectedText);
-      setShowSearchButton(true);
-      setPosition({ x: e.pageX, y: e.pageY });
+      const selection = window.getSelection();
+      pipe(
+        selection?.toString(),
+        (s?: string) => E.fromNullable('empty')(s),
+        E.chain(trim),
+        E.chain(isStringNotEmpty),
+        E.chain(isSingleWord),
+        E.match(
+          () => {
+            resetSearchWord();
+          },
+          (selectedText) => {
+            setSearchWord(selectedText);
+            setShowSearchButton(true);
+            setPosition({ x: e.pageX, y: e.pageY });
+          }
+        )
+      );
     });
   }, []);
   const className = [
