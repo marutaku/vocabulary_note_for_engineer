@@ -4,7 +4,6 @@ import { type App } from 'firebase-admin/app';
 import * as E from 'fp-ts/Either';
 import * as TE from 'fp-ts/TaskEither';
 import * as F from 'fp-ts/lib/function';
-import * as IO from 'fp-ts/IO';
 
 type DecodeTokenError = Readonly<{
   type: 'DecodeTokenError';
@@ -61,30 +60,25 @@ const convertToTask =
 
 export const createAuthMiddleware = (app: App): MiddlewareHandler => {
   return async (ctx, next) => {
-    const result = F.pipe(
+    return F.pipe(
       ctx,
       getTokenFromContext,
       E.flatMap(extractToken),
       TE.fromEither,
       TE.flatMap(convertToTask(app)),
-    );
-    await next();
-    // const tokenWithBearer = ctx.req.header('Authorization');
-    // if (tokenWithBearer === undefined) {
-    //   return ctx.json({ error: 'Unauthorized' }, 401);
-    // }
-    // const splittedToken = tokenWithBearer.split(' ');
-    // if (splittedToken.length !== 2) {
-    //   return ctx.json({ error: 'Unauthorized' }, 401);
-    // }
-    // try {
-    //   const token = splittedToken[1];
-    //   const decodedToken = await auth.verifyIdToken(token);
-    //   ctx.set('userId', decodedToken.uid);
-    //   await next();
-    // } catch (error) {
-    //   return ctx.json({ error: 'Unauthorized' }, 401);
-    // }
+      TE.matchW(
+        (e): Response => {
+          if (e.type === 'TokenNotFoundError') {
+            return ctx.json({ error: 'Unauthorized' }, 401);
+          }
+          return ctx.json({ error: 'Unauthorized' }, 401);
+        },
+        async (userId) => {
+          ctx.set('userId', userId);
+          await next();
+        },
+      ),
+    )();
   };
 };
 
