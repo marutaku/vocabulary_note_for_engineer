@@ -45,32 +45,34 @@ export const App = () => {
   const className = [
     'bg-white',
     'border',
+    'inline-flex',
+    'items-center',
+    'justify-center',
     'border-gray-300',
     'rounded-md',
     'shadow-md',
-    'p-2',
     'z-50',
+    'w-8',
+    'h-8',
   ];
   return (
-    <div>
-      {showSearchButton && (
-        <button
-          className={className.join(' ')}
-          style={{
-            position: 'absolute',
-            top: `${position.y + 10}px`,
-            left: `${position.x}px`,
-          }}
-          onClick={() => {
-            console.log(`search word: ${searchWord}`);
-            resetSearchWord();
-          }}
-          data-extension-area="true"
-        >
-          S
-        </button>
-      )}
-    </div>
+    showSearchButton && (
+      <button
+        className={className.join(' ')}
+        style={{
+          position: 'absolute',
+          top: `${position.y + 10}px`,
+          left: `${position.x}px`,
+        }}
+        onClick={() => {
+          console.log(`search word: ${searchWord}`);
+          resetSearchWord();
+        }}
+        data-extension-area="true"
+      >
+        S
+      </button>
+    )
   );
 };
 
