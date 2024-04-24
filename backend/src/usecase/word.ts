@@ -5,9 +5,10 @@ import {
   HistoryRepository,
   HistoryRepositoryImpl,
 } from '../infra/repository/history';
+import { Context } from 'hono';
 
 export interface WordUseCase {
-  searchWord(word: string): Promise<Word | null>;
+  searchWord(ctx: Context, word: string): Promise<Word | null>;
 }
 
 export class WordUseCaseImpl implements WordUseCase {
@@ -20,12 +21,12 @@ export class WordUseCaseImpl implements WordUseCase {
     );
     this.historyRepository = new HistoryRepositoryImpl(app);
   }
-  async searchWord(word: string): Promise<Word | null> {
+  async searchWord(ctx: Context, word: string): Promise<Word | null> {
     const result = await this.wordRepository.getWord(word, 3);
     if (!result) {
       return result;
     }
-    await this.historyRepository.addHistory('user1', word);
+    await this.historyRepository.addHistory(ctx.get('userId'), word);
     return result;
   }
 }

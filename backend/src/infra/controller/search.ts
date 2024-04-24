@@ -10,7 +10,7 @@ export class WordController {
   }
   search: RouteHandler<typeof searchRoute> = async (ctx) => {
     const { word } = ctx.req.valid('query');
-    const wordWithExamples = await this.wordUsecase.searchWord(word);
+    const wordWithExamples = await this.wordUsecase.searchWord(ctx, word);
     if (!wordWithExamples) {
       return ctx.json(
         {
