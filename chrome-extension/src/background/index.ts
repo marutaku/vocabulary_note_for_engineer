@@ -46,9 +46,11 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
 });
 type SearchRequestMessage = { type: 'search'; word: string };
 
-chrome.runtime.onMessage.addListener(async (message: SearchRequestMessage, _, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: SearchRequestMessage, sender, sendResponse) => {
   if (message.type === 'search') {
-    const result = await client.searchWord(message.word);
-    sendResponse(result);
+    client.searchWord(message.word).then((result) => {
+      sendResponse(result);
+    });
   }
+  return true;
 });
