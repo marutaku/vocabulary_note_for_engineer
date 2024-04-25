@@ -1,4 +1,3 @@
-import { flow } from 'lodash-es';
 import * as E from 'fp-ts/Either';
 
 export const trim = (s: string): E.Either<string, string> => {

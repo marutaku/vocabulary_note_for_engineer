@@ -4,7 +4,7 @@ import { APIClient } from './api';
 
 type ContextMenus = 'search-word' | 'store-word';
 
-const client = new APIClient()
+const client = new APIClient();
 
 const menus: { id: ContextMenus; title: string; contexts: Menus.ContextType[] }[] = [
   {
@@ -21,7 +21,7 @@ const menus: { id: ContextMenus; title: string; contexts: Menus.ContextType[] }[
 
 // show welcome page on new install
 browser.runtime.onInstalled.addListener(async () => {
-  await initApp()
+  await initApp();
   menus.forEach((menu) => {
     browser.contextMenus.create({
       id: menu.id,
@@ -33,14 +33,22 @@ browser.runtime.onInstalled.addListener(async () => {
 
 chrome.contextMenus.onClicked.addListener(async (info) => {
   if (info.menuItemId === 'search-word') {
-    const word = info.selectionText
+    const word = info.selectionText;
     if (!word) {
-      return
+      return;
     }
     const result = await client.searchWord(word);
     console.log(result);
   }
   if (info.menuItemId === 'store-word') {
     console.log(info.selectionText);
+  }
+});
+type SearchRequestMessage = { type: 'search'; word: string };
+
+chrome.runtime.onMessage.addListener(async (message: SearchRequestMessage, _, sendResponse) => {
+  if (message.type === 'search') {
+    const result = await client.searchWord(message.word);
+    sendResponse(result);
   }
 });

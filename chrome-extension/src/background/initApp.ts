@@ -15,12 +15,12 @@ export async function initApp() {
     // if (!user) {
 
     // }
-    chrome.runtime.onMessage.addListener(async function onReceiveAuthStateRequest(message: MessageType, _sender, _sendResponse) {
+    chrome.runtime.onMessage.addListener(async function onReceiveAuthStateRequest(message: MessageType, _sender, sendResponse) {
       if (message.type == 'signin-state') {
         if (user) {
-          _sendResponse({ type: 'signin-state', user });
+          sendResponse({ type: 'signin-state', user });
         } else {
-          _sendResponse({ type: 'signin-state' });
+          sendResponse({ type: 'signin-state' });
         }
       }
       if (message.type === 'login') {

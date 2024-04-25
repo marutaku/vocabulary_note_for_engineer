@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { pipe } from 'fp-ts/function';
 import * as E from 'fp-ts/Either';
 import { isSingleWord, isStringNotEmpty, trim } from './validate';
+import { searchWord } from './search';
 
 export const App = () => {
   const [showSearchButton, setShowSearchButton] = useState(false);
-  const [searchWord, setSearchWord] = useState('');
+  const [word, setWord] = useState('');
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const resetSearchWord = () => {
-    setSearchWord('');
+    setWord('');
     setShowSearchButton(false);
     setPosition({ x: 0, y: 0 });
   };
@@ -19,7 +20,6 @@ export const App = () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (e.target?.dataset.extensionArea) {
-        resetSearchWord();
         return;
       }
       const selection = window.getSelection();
@@ -33,8 +33,9 @@ export const App = () => {
           () => {
             resetSearchWord();
           },
-          (selectedText) => {
-            setSearchWord(selectedText);
+          (selectedText: string) => {
+            console.log(selectedText);
+            setWord(selectedText);
             setShowSearchButton(true);
             setPosition({ x: e.pageX, y: e.pageY });
           }
@@ -55,6 +56,13 @@ export const App = () => {
     'w-8',
     'h-8',
   ];
+  const handleSearch = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('search', word);
+    e.preventDefault();
+    const result = await searchWord(word);
+    console.log(result);
+    resetSearchWord();
+  };
   return (
     showSearchButton && (
       <button
@@ -64,10 +72,7 @@ export const App = () => {
           top: `${position.y + 10}px`,
           left: `${position.x}px`,
         }}
-        onClick={() => {
-          console.log(`search word: ${searchWord}`);
-          resetSearchWord();
-        }}
+        onClick={handleSearch}
         data-extension-area="true"
       >
         S
