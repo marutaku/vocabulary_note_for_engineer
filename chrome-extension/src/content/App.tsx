@@ -77,7 +77,7 @@ export const App = () => {
   if (wordDefinition) {
     return (
       <div
-        className="border border-gray-300 rounded-sm shadow-md z-50 w-[400px] max-h-[450px]"
+        className="border border-gray-300 rounded-sm shadow-md z-50"
         style={{
           position: 'absolute',
           top: `${position.y + 10}px`,

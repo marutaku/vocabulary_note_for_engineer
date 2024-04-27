@@ -15,6 +15,16 @@ const truncateStringFromTargetWord =
     }
     return truncatedSentence;
   };
+const formatMeaning = (rawMeaning: string) => {
+  const meanings = rawMeaning.split('\n');
+  return (
+    <div className="flex flex-col gap-1">
+      {meanings.map((meaning) => (
+        <div key={meaning}>{meaning}</div>
+      ))}
+    </div>
+  );
+};
 
 export const Definition = ({
   word,
@@ -32,23 +42,29 @@ export const Definition = ({
     onClose();
   };
   return (
-    <div className="bg-white border  flex flex-col p-4 gap-4 h-full">
+    <div className="bg-white border rounded-sm flex flex-col p-4 gap-2 max-h-[450px] overflow-x-scroll w-[400px]">
       <div className="absolute top-4 right-4">
         <button className="rounded-md w-4 h-4 inline-flex justify-center" onClick={handleClose}>
           x
         </button>
       </div>
       <h2>{word}</h2>
-      <p className="font-sm">{meaning}</p>
-      <ul className="font-sm">
-        {examples.map(({ sentence, url }) => (
-          <li key={sentence}>
-            <a href={url} target="_blank" rel="noreferrer">
-              {truncate(sentence)}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <h4 className="font-lg">意味</h4>
+        <div className="font-sm">{formatMeaning(meaning)}</div>
+      </div>
+      <div>
+        <h4 className="font-lg">例文</h4>
+        <ul className="font-sm">
+          {examples.map(({ sentence, url }) => (
+            <li key={sentence}>
+              <a href={url} target="_blank" rel="noreferrer">
+                {truncate(sentence)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
